@@ -1,14 +1,21 @@
 import React from 'react';
-import Editor from './components/Editor';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { EditorProvider } from './context/EditorContext';
+import LandingPage from './components/landing/LandingPage';
+import TemplateSelection from './components/templates/TemplateSelection';
+import Editor from './components/Editor';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Router>
       <EditorProvider>
-        <Editor />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/templates" element={<TemplateSelection />} />
+          <Route path="/editor" element={<Editor />} />
+        </Routes>
       </EditorProvider>
-    </div>
+    </Router>
   );
 }
 
