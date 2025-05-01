@@ -1,16 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './layout/Header';
 import Sidebar from './layout/Sidebar';
 import Canvas from './layout/Canvas';
 import PropertiesPanel from './layout/PropertiesPanel';
+import DeviceSelector from './layout/DeviceSelector';
 import { useEditor } from '../context/EditorContext';
 import { ELEMENT_TYPES } from '../constants/elementTypes';
+import { Smartphone, Tablet, Monitor } from 'lucide-react';
+import { DeviceType } from '../constants/deviceSizes';
+
+const deviceSizes = {
+  mobile: { width: 375, height: 667 },
+  tablet: { width: 768, height: 1024 },
+  desktop: { width: 1366, height: 768 }
+};
 
 const Editor = () => {
   const { selectedElement, addElement } = useEditor();
   const location = useLocation();
   const { templateId, formData } = location.state || {};
+  const [selectedDevice, setSelectedDevice] = useState<DeviceType>('desktop');
 
   useEffect(() => {
     if (templateId && formData) {
@@ -57,9 +67,15 @@ const Editor = () => {
   return (
     <div className="flex flex-col h-screen">
       <Header />
+      <div className="flex-none p-4 bg-gray-900 border-b border-gray-800 flex justify-center">
+        <DeviceSelector
+          selectedDevice={selectedDevice}
+          onDeviceSelect={setSelectedDevice}
+        />
+      </div>
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <Canvas />
+        <Canvas selectedDevice={selectedDevice} />
         {selectedElement && <PropertiesPanel />}
       </div>
     </div>

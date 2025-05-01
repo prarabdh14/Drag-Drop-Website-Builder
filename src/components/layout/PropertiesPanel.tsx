@@ -116,7 +116,7 @@ const PropertiesPanel: React.FC = () => {
             className="w-full px-2 py-1 bg-gray-700 rounded text-white"
             placeholder="e.g., 16px, 1rem"
           />
-        </div>
+      </div>
       </div>
     </div>
   );

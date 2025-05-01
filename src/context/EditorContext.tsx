@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { ElementType, Position } from '../types/editor';
 import { ELEMENT_TYPES } from '../constants/elementTypes';
 
+interface Styles {
+  [key: string]: string;
+}
+
 interface EditorContextProps {
   elements: ElementType[];
   selectedElement: ElementType | null;
@@ -12,8 +16,8 @@ interface EditorContextProps {
   canRedo: boolean;
   draggedElement: ElementType | null;
   dropTarget: string | null;
-  addElement: (type: string, containerId: string, position: Position) => void;
-  updateElement: (id: string, updatedElement: ElementType) => void;
+  addElement: (type: string, containerId: string, position: Position, content?: string, styles?: Styles) => void;
+  updateElement: (id: string, element: Partial<ElementType>) => void;
   deleteElement: (id: string) => void;
   selectElement: (id: string) => void;
   deselectElement: () => void;
@@ -25,6 +29,7 @@ interface EditorContextProps {
   endDrag: () => void;
   setDropTarget: (targetId: string | null) => void;
   moveElement: (elementId: string, newPosition: Position, newContainerId?: string) => void;
+  setSelectedElement: (element: ElementType | null) => void;
 }
 
 const EditorContext = createContext<EditorContextProps | undefined>(undefined);
@@ -111,65 +116,32 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   };
 
   // Add new element
-  const addElement = useCallback((type: string, containerId: string, position: Position) => {
+  const addElement = useCallback((
+    type: string,
+    containerId: string,
+    position: Position,
+    content: string = '',
+    styles: Styles = {}
+  ) => {
     const newElement: ElementType = {
       id: uuidv4(),
       type,
       position,
-      containerId,
-      content: '',
-      styles: {}
+      content,
+      styles,
+      containerId
     };
-
-    // Set default content and styles based on element type
-    switch (type) {
-      case ELEMENT_TYPES.HEADING:
-        newElement.content = 'Heading';
-        newElement.styles = {
-          fontSize: '24px',
-          fontWeight: 'bold',
-          color: '#000000'
-        };
-        break;
-      case ELEMENT_TYPES.TEXT:
-        newElement.content = 'Text content goes here';
-        newElement.styles = {
-          fontSize: '16px',
-          color: '#000000'
-        };
-        break;
-      case ELEMENT_TYPES.IMAGE:
-        newElement.content = 'https://via.placeholder.com/150';
-        newElement.styles = {
-          width: '150px',
-          height: '150px',
-          objectFit: 'cover'
-        };
-        break;
-      case ELEMENT_TYPES.BUTTON:
-        newElement.content = 'Button';
-        newElement.styles = {
-          padding: '8px 16px',
-          backgroundColor: '#3B82F6',
-          color: '#FFFFFF',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        };
-        break;
-    }
-
-    setElements(prevElements => [...prevElements, newElement]);
+    setElements(prev => [...prev, newElement]);
     setSelectedElementId(newElement.id);
     addToHistory([...elements, newElement]);
   }, [elements, addToHistory]);
 
   // Update element
-  const updateElement = useCallback((id: string, updatedElement: ElementType) => {
-    const newElements = elements.map(element => 
-      element.id === id ? { ...updatedElement } : element
+  const updateElement = useCallback((id: string, element: Partial<ElementType>) => {
+    setElements(prev =>
+      prev.map(el => (el.id === id ? { ...el, ...element } : el))
     );
-    setElements(newElements);
-    addToHistory(newElements);
+    addToHistory(elements.map(el => el.id === id ? { ...el, ...element } : el));
   }, [elements, addToHistory]);
 
   // Delete element
@@ -246,6 +218,10 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     });
   }, [addToHistory]);
 
+  const setSelectedElement = useCallback((element: ElementType | null) => {
+    setSelectedElementId(element?.id || null);
+  }, []);
+
   const value = {
     elements,
     selectedElement: selectedElementId ? elements.find(el => el.id === selectedElementId) || null : null,
@@ -267,7 +243,8 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     startDrag,
     endDrag,
     setDropTarget,
-    moveElement
+    moveElement,
+    setSelectedElement
   };
 
   return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>;
@@ -280,3 +257,5 @@ export const useEditor = (): EditorContextProps => {
   }
   return context;
 };
+
+export type { Styles };
