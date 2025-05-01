@@ -8,4 +8,10 @@ export const ELEMENT_TYPES = {
   COLUMNS: 'columns',
   MAP: 'map',
   LINK: 'link',
-};
+  HEADER: 'header',
+  FOOTER: 'footer',
+  SECTION: 'section',
+  BACKGROUND: 'background'
+} as const;
+
+export type ElementType = typeof ELEMENT_TYPES[keyof typeof ELEMENT_TYPES];

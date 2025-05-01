@@ -12,6 +12,7 @@ const CommonProperties = () => {
     margin = '0',
     padding = '0',
     width = 'auto',
+    height = 'auto',
   } = styles;
 
   const handleStyleChange = (property: string, value: string) => {
@@ -45,6 +46,26 @@ const CommonProperties = () => {
             <option value="75%">75%</option>
             <option value="50%">50%</option>
             <option value="25%">25%</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="height" className="block text-xs text-gray-500 mb-1">
+            Height
+          </label>
+          <select
+            id="height"
+            value={height}
+            onChange={(e) => handleStyleChange('height', e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+          >
+            <option value="auto">Auto</option>
+            <option value="100%">Full Height</option>
+            <option value="75%">75%</option>
+            <option value="50%">50%</option>
+            <option value="25%">25%</option>
+            <option value="200px">200px</option>
+            <option value="300px">300px</option>
+            <option value="400px">400px</option>
           </select>
         </div>
       </div>

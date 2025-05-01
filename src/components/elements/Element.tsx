@@ -6,6 +6,10 @@ import HeadingElement from './HeadingElement';
 import TextElement from './TextElement';
 import ImageElement from './ImageElement';
 import ButtonElement from './ButtonElement';
+import HeaderElement from './HeaderElement';
+import FooterElement from './FooterElement';
+import SectionElement from './SectionElement';
+import BackgroundElement from './BackgroundElement';
 
 interface ElementProps {
   element: ElementType;
@@ -33,6 +37,14 @@ const Element: React.FC<ElementProps> = ({ element, isPreview = false }) => {
         return <ImageElement element={element} />;
       case ELEMENT_TYPES.BUTTON:
         return <ButtonElement element={element} />;
+      case ELEMENT_TYPES.HEADER:
+        return <HeaderElement element={element} />;
+      case ELEMENT_TYPES.FOOTER:
+        return <FooterElement element={element} />;
+      case ELEMENT_TYPES.SECTION:
+        return <SectionElement element={element} />;
+      case ELEMENT_TYPES.BACKGROUND:
+        return <BackgroundElement element={element} />;
       default:
         return <div>Unknown element type</div>;
     }

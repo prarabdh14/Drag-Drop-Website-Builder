@@ -68,7 +68,7 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
       case ELEMENT_TYPES.HEADING:
         return {
           ...defaultProps,
-          content: 'Heading',
+          content: 'Welcome to Your Website',
           styles: {
             fontSize: '2rem',
             fontWeight: 'bold',
@@ -79,7 +79,7 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
       case ELEMENT_TYPES.TEXT:
         return {
           ...defaultProps,
-          content: 'Text content goes here. Click to edit.',
+          content: 'Add your content here. This is a paragraph block where you can write text, descriptions, or any other information you want to share with your visitors.',
           styles: {
             fontSize: '1rem',
             textAlign: 'left',
@@ -89,10 +89,13 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
       case ELEMENT_TYPES.IMAGE:
         return {
           ...defaultProps,
-          content: 'https://images.pexels.com/photos/1591447/pexels-photo-1591447.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+          content: 'https://images.unsplash.com/photo-1706880464294-480ff57b5e4e?q=80&w=1000&auto=format&fit=crop',
           styles: {
-            width: '100%',
+            width: '300px',
+            height: 'auto',
             objectFit: 'cover',
+            borderRadius: '4px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
           },
         };
       case ELEMENT_TYPES.BUTTON:
@@ -105,6 +108,66 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
             padding: '0.5rem 1rem',
             borderRadius: '0.25rem',
             fontWeight: 'medium',
+            cursor: 'pointer',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          },
+        };
+      case ELEMENT_TYPES.HEADER:
+        return {
+          ...defaultProps,
+          content: '',
+          styles: {
+            width: '100%',
+            height: '80px',
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid #E5E7EB',
+            padding: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            position: 'relative',
+            zIndex: '10',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+          },
+        };
+      case ELEMENT_TYPES.FOOTER:
+        return {
+          ...defaultProps,
+          content: '',
+          styles: {
+            width: '100%',
+            backgroundColor: '#1F2937',
+            color: '#FFFFFF',
+            padding: '2rem',
+            marginTop: 'auto',
+            position: 'relative',
+            zIndex: '10',
+          },
+        };
+      case ELEMENT_TYPES.SECTION:
+        return {
+          ...defaultProps,
+          content: '',
+          styles: {
+            width: '100%',
+            minHeight: '400px',
+            backgroundColor: '#FFFFFF',
+            padding: '2rem',
+            position: 'relative',
+          },
+        };
+      case ELEMENT_TYPES.BACKGROUND:
+        return {
+          ...defaultProps,
+          content: '',
+          styles: {
+            backgroundColor: '#FFFFFF',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: '-1',
           },
         };
       default:

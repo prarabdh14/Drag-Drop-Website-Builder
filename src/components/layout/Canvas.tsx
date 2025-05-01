@@ -62,16 +62,24 @@ const Canvas: React.FC<CanvasProps> = ({ selectedDevice }) => {
       switch (elementType) {
         case ELEMENT_TYPES.HEADING:
           defaultStyles = {
-            fontSize: '2rem',
+            fontSize: '32px',
             fontWeight: 'bold',
             color: '#000000',
+            minWidth: '200px',
+            lineHeight: '1.2',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
           };
+          addElement(elementType, 'root', { x, y }, 'Welcome to Your Website', defaultStyles);
           break;
         case ELEMENT_TYPES.TEXT:
           defaultStyles = {
-            fontSize: '1rem',
+            fontSize: '16px',
             color: '#000000',
+            minWidth: '200px',
+            lineHeight: '1.5',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
           };
+          addElement(elementType, 'root', { x, y }, 'Add your content here. This is a paragraph block where you can write text, descriptions, or any other information you want to share with your visitors.', defaultStyles);
           break;
         case ELEMENT_TYPES.IMAGE:
           defaultStyles = {
@@ -79,6 +87,7 @@ const Canvas: React.FC<CanvasProps> = ({ selectedDevice }) => {
             height: 'auto',
             objectFit: 'contain',
           };
+          addElement(elementType, 'root', { x, y }, mediaUrl || '', defaultStyles);
           break;
         case ELEMENT_TYPES.BUTTON:
           defaultStyles = {
@@ -89,6 +98,62 @@ const Canvas: React.FC<CanvasProps> = ({ selectedDevice }) => {
             fontSize: '1rem',
             cursor: 'pointer',
           };
+          addElement(elementType, 'root', { x, y }, 'Click Me', defaultStyles);
+          break;
+        case ELEMENT_TYPES.HEADER:
+          defaultStyles = {
+            width: '100%',
+            height: '80px',
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid #E5E7EB',
+            padding: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: '50',
+          };
+          addElement(elementType, 'root', { x: 0, y: 0 }, '', defaultStyles);
+          break;
+        case ELEMENT_TYPES.FOOTER:
+          defaultStyles = {
+            width: '100%',
+            backgroundColor: '#1F2937',
+            color: '#FFFFFF',
+            padding: '2rem',
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: '50',
+          };
+          addElement(elementType, 'root', { x: 0, y: deviceSize.height - 200 }, '', defaultStyles);
+          break;
+        case ELEMENT_TYPES.SECTION:
+          defaultStyles = {
+            width: '100%',
+            minHeight: '400px',
+            backgroundColor: '#FFFFFF',
+            padding: '2rem',
+            position: 'relative',
+            marginBottom: '1rem',
+          };
+          addElement(elementType, 'root', { x, y }, '', defaultStyles);
+          break;
+        case ELEMENT_TYPES.BACKGROUND:
+          defaultStyles = {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: '-1',
+            backgroundColor: '#FFFFFF',
+          };
+          addElement(elementType, 'root', { x: 0, y: 0 }, '', defaultStyles);
           break;
       }
 
@@ -100,15 +165,15 @@ const Canvas: React.FC<CanvasProps> = ({ selectedDevice }) => {
             height: 'auto',
             objectFit: 'contain',
           };
+          addElement(elementType, 'root', { x, y }, mediaUrl, defaultStyles);
         } else if (elementType === 'video') {
           defaultStyles = {
             width: '400px',
             height: 'auto',
           };
+          addElement(elementType, 'root', { x, y }, mediaUrl, defaultStyles);
         }
       }
-      
-      addElement(elementType, 'root', { x, y }, mediaUrl || '', defaultStyles);
     }
   };
 
@@ -151,7 +216,7 @@ const Canvas: React.FC<CanvasProps> = ({ selectedDevice }) => {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={`relative w-full h-full overflow-auto ${
-            isDragOver ? 'bg-blue-50' : 'bg-white'
+            isDragOver ? 'bg-blue-50' : ''
           }`}
           onClick={() => setSelectedElement(null)}
         >

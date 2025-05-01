@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEditor } from '../../context/EditorContext';
 import { ELEMENT_TYPES } from '../../constants/elementTypes';
-import { Heading, Text, Image, Square, LayoutGrid, Upload } from 'lucide-react';
+import { Heading, Text, Image, Square, LayoutGrid, Upload, LayoutTemplate, Layout, Palette } from 'lucide-react';
 import UploadsPanel from './UploadsPanel';
 
 type TabType = 'elements' | 'uploads';
@@ -15,6 +15,10 @@ const Sidebar: React.FC = () => {
   };
 
   const elements = [
+    { type: ELEMENT_TYPES.BACKGROUND, icon: <Palette size={20} />, label: 'Background Color' },
+    { type: ELEMENT_TYPES.HEADER, icon: <LayoutTemplate size={20} />, label: 'Header' },
+    { type: ELEMENT_TYPES.SECTION, icon: <Layout size={20} />, label: 'Section' },
+    { type: ELEMENT_TYPES.FOOTER, icon: <LayoutTemplate size={20} />, label: 'Footer' },
     { type: ELEMENT_TYPES.HEADING, icon: <Heading size={20} />, label: 'Heading' },
     { type: ELEMENT_TYPES.TEXT, icon: <Text size={20} />, label: 'Text' },
     { type: ELEMENT_TYPES.IMAGE, icon: <Image size={20} />, label: 'Image' },
